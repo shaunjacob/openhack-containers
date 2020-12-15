@@ -1,0 +1,28 @@
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=P@ssword123" `
+   -p 1433:1433 --name sql1 -h sql1 `
+   -d `
+   mcr.microsoft.com/mssql/server:2017-latest
+
+
+   /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "P@ssword123"
+
+
+
+   docker run --network bridge -e SQLFQDN=172.17.0.2 -e SQLUSER=SA -e SQLPASS=P@ssword123 -e SQLDB=mydrivingDB openhack/data-load:v1
+
+
+   curl -i -X GET 'http://localhost:8080/api/poi'
+
+   Invoke-WebRequest -Uri http://localhost:8080/api/poi
+
+#run POI
+docker run -d -p 8080:80 --name poi -e "ASPNETCORE_ENVIRONMENT=Local" tripinsights/poi:1.0
+
+#build userprofile
+az acr build --registry registryosg7304 --image registryosg7304.azurecr.io/tripinsights/userprofile:1.0 . --file Dockerfile
+
+#build tripviewer
+az acr build --registry registryosg7304 --image registryosg7304.azurecr.io/tripinsights/tripviewer:1.0 . --file Dockerfile
+
+
+   
