@@ -24,5 +24,5 @@ az acr build --registry registryosg7304 --image registryosg7304.azurecr.io/tripi
 #build tripviewer
 az acr build --registry registryosg7304 --image registryosg7304.azurecr.io/tripinsights/tripviewer:1.0 . --file Dockerfile
 
-
-   
+#connect acr
+az aks update -n aks2 -g teamresources --attach-acr registryosg7304
