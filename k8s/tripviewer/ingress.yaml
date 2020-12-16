@@ -15,19 +15,19 @@ spec:
       - backend:
           serviceName: poi-service
           servicePort: 8080
-        path: /(api/poi/.*)
+        path: /(api/poi/*.*)
       - backend:
           serviceName: trips-service
           servicePort: 8080
-        path: /(api/trips/.*)
+        path: /(api/trips/*.*)
       - backend:
           serviceName: user-java-service
           servicePort: 8080
-        path: /(api/user-java/.*)
+        path: /(api/user-java/*.*)
       - backend:
           serviceName: userprofile-service
           servicePort: 8080
-        path: /(api/user/.*)      
+        path: /(api/user/*.*)      
       - backend:
           serviceName: tripviewer-service
           servicePort: 8080
