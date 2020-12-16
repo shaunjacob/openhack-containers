@@ -18,16 +18,32 @@ spec:
       containers:
       - name: user-java
         image: registryosg7304.azurecr.io/tripinsights/user-java:1.0
+        volumeMounts:
+        - name: secrets-store01-inline
+          mountPath: "/mnt/secrets-store"
+          readOnly: true
         ports:
         - containerPort: 80
         env:
           - name: SQL_USER
             value: sqladminoSg7304
           - name: SQL_PASSWORD
-            value: cR8ei9Vx4
+            valueFrom:
+              secretKeyRef:
+                name: sqlpassword
+                key: sqlpassword
           - name: SQL_SERVER
             value: sqlserverosg7304.database.windows.net
           - name: SQL_DBNAME
             value: mydrivingDB
           - name: OPENAPI_DOCS_URI
             value: http://changeme
+      volumes:
+        - name: secrets-store01-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "azure-keyvault"
+            nodePublishSecretRef:
+              name: secrets-store-creds

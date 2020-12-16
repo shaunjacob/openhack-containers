@@ -26,3 +26,12 @@ az acr build --registry registryosg7304 --image registryosg7304.azurecr.io/tripi
 
 #connect acr
 az aks update -n aks2 -g teamresources --attach-acr registryosg7304
+
+
+#install csi
+helm repo add csi-secrets-store-provider-azure https://raw.githubusercontent.com/Azure/secrets-store-csi-driver-provider-azure/master/charts
+helm install csi-secrets-store-provider-azure/csi-secrets-store-provider-azure --generate-name
+
+$AZURE_CLIENT_ID="a3feecb3-6083-43f1-848e-fce01e40c8f7"
+$AZURE_CLIENT_SECRET="2Io4vhhsGZpc5YQNrV~7g3fJN9v709-2ev"
+kubectl create secret generic secrets-store-creds --from-literal clientid=$AZURE_CLIENT_ID --from-literal clientsecret=$AZURE_CLIENT_SECRET --namespace api

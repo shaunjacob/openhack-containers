@@ -1,0 +1,23 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: windows-secrets-store-inline-pod
+  labels:
+    aadpodidbinding: "demo"
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      volumeMounts:
+      - name: secrets-store01-inline
+        mountPath: "/mnt/secrets-store"
+        readOnly: true
+  volumes:
+    - name: secrets-store01-inline
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: "azure-keyvault"
+        nodePublishSecretRef:           # Only required when using service principal mode
+          name: secrets-store-creds
